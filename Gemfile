@@ -50,4 +50,7 @@ end
 # gem 'capistrano', group: :development
 
 # Use debugger
-# gem 'debugger', group: [:development, :test]
+gem 'debugger', group: [:development, :test]
+
+gem "nokogiri", "~> 1.6.1"
+gem "better_errors", "~> 1.1.0"
