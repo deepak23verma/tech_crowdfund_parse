@@ -90,6 +90,7 @@ class ProjectsController < ApplicationController
         kickstarter_project[:title] = project.css(".bbcard_name strong a").text
         kickstarter_project[:pledged] = project.css(".project-stats .pledged strong .money").text
         kickstarter_project[:funded] = project.css(".project-stats .first.funded").text
+        kickstarter_project[:project_link] = "https://www.kickstarter.com/" + project.css(".project-thumbnail a").first.attr('href')
         @projects << kickstarter_project
       end
     end
