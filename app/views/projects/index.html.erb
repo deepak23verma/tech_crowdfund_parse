@@ -6,7 +6,6 @@
       <th>Source</th>
       <th>Title</th>
       <th>Pledged</th>
-      <th>Funded</th>
       <th>Project Link</th>
     </tr>
   </thead>
@@ -14,13 +13,10 @@
   <tbody>
     <% @projects.each do |project| %>
       <tr>
-        <%= link_to project[:project_link] do %>
         <td><%= project[:source]%></td>
         <td><%= project[:title]%></td>
         <td><%= project[:pledged]%></td>
-        <td><%= project[:funded]%></td>
         <td><%= link_to 'Go To Project Page', project[:project_link]%></td>
-        <% end %>
       </tr>
     <% end %>
   </tbody>

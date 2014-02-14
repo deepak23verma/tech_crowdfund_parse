@@ -14,6 +14,7 @@ class ProjectsController < ApplicationController
   def index
     @projects = Array.new
     get_kickstarter_projects
+    get_indiegogo_projects
   end
 
   # GET /projects/1
@@ -89,7 +90,6 @@ class ProjectsController < ApplicationController
         kickstarter_project[:source] = "Kickstarter"
         kickstarter_project[:title] = project.css(".bbcard_name strong a").text
         kickstarter_project[:pledged] = project.css(".project-stats .pledged strong .money").text
-        kickstarter_project[:funded] = project.css(".project-stats .first.funded").text
         kickstarter_project[:project_link] = "https://www.kickstarter.com/" + project.css(".project-thumbnail a").first.attr('href')
         @projects << kickstarter_project
       end
@@ -108,5 +108,30 @@ class ProjectsController < ApplicationController
       .project.grid_4 
       .project-card-wrap 
       .project-card")
+    end
+
+    def get_indiegogo_projects
+      
+      indiegogo_projects = scrape_indiegogo
+      indiegogo_projects.each do |project|
+        indiegogo_project = Hash.new
+        indiegogo_project[:source] = "Indiegogo"
+        indiegogo_project[:title] = project.css(".project-details .name").text
+        indiegogo_project[:pledged] = project.css("#project-stats-funding-amt .currency").text
+        indiegogo_project[:link] = "http://www.indiegogo.com/" + project.css(".image a").first.attr('href')
+        @projects << indiegogo_project
+      end
+
+    end
+
+    def scrape_indiegogo
+      indiegogo = "http://www.indiegogo.com/projects?filter_category=Technology&filter_country=CTRY_CA&filter_quick=most_funded"
+      indiegogo_page = Nokogiri::HTML(open(indiegogo))
+      indiegogo_projects = indiegogo_page.css("html 
+      .indiegogo-main 
+      .content .container.clearfix 
+      .fr .browse-results 
+      .badges.clearfix 
+      .fl.badge.rounded.shadow")
     end
 end
