@@ -5,17 +5,23 @@ require 'open-uri'
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
-  def index
+  def most_funded
     @projects = Array.new
-    get_kickstarter_projects
-    get_indiegogo_projects
+    get_kickstarter_projects("most_funded")
+    get_indiegogo_projects("most_funded")
+  end
+
+  def most_popular
+    @projects = Array.new
+    get_kickstarter_projects("popularity")
+    get_indiegogo_projects("popular_all")
   end
 
   private
 
-    def get_kickstarter_projects
+    def get_kickstarter_projects(sort)
       
-      kickstarter_projects = scrape_kickstarter
+      kickstarter_projects = scrape_kickstarter(sort)
       kickstarter_projects.each do |project|
         kickstarter_project = Hash.new
         kickstarter_project[:source] = "Kickstarter"
@@ -27,8 +33,8 @@ class ProjectsController < ApplicationController
       end
     end
 
-    def scrape_kickstarter
-      url = "https://www.kickstarter.com/discover/advanced?category_id=16&sort=most_funded#"
+    def scrape_kickstarter(sort)
+      url = "https://www.kickstarter.com/discover/advanced?category_id=16&sort=#{sort}"
       page = Nokogiri::HTML(open(url))
       kickstarter_projects = page.css("html 
       #discover_advanced 
@@ -42,9 +48,9 @@ class ProjectsController < ApplicationController
       .project-card")
     end
 
-    def get_indiegogo_projects
+    def get_indiegogo_projects(sort)
       
-      indiegogo_projects = scrape_indiegogo
+      indiegogo_projects = scrape_indiegogo(sort)
       indiegogo_projects.each do |project|
         indiegogo_project = Hash.new
         indiegogo_project[:source] = "Indiegogo"
@@ -57,8 +63,8 @@ class ProjectsController < ApplicationController
 
     end
 
-    def scrape_indiegogo
-      indiegogo = "http://www.indiegogo.com/projects?filter_category=Technology&filter_country=CTRY_CA&filter_quick=most_funded"
+    def scrape_indiegogo(sort)
+      indiegogo = "http://www.indiegogo.com/projects?filter_category=Technology&filter_country=CTRY_CA&filter_quick=#{sort}"
       indiegogo_page = Nokogiri::HTML(open(indiegogo))
       indiegogo_projects = indiegogo_page.css("html 
       .indiegogo-main 

@@ -1,6 +1,8 @@
 Nokogiri::Application.routes.draw do
-  root 'projects#index'
+  root 'projects#most_funded'
   resources :projects
+  get "most_funded" => "projects#most_funded"
+  get "most_popular" => "projects#most_popular"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
