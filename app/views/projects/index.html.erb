@@ -1,23 +1,11 @@
 <h1>Top Crowdfunding Tech Projects</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Source</th>
-      <th>Title</th>
-      <th>Pledged</th>
-      <th>Project Link</th>
-    </tr>
-  </thead>
 
-  <tbody>
     <% @projects.each do |project| %>
-      <tr>
-        <td><%= project[:source]%></td>
-        <td><%= project[:title]%></td>
-        <td><%= project[:pledged]%></td>
-        <td><%= link_to 'Go To Project Page', project[:project_link]%></td>
-      </tr>
+        <div class="panel large-4 columns">
+          <h6><%= project[:title]%></h6>
+          <p>Source: <%= project[:source]%></p>
+          <p>Amount Pledged: <%= project[:pledged]%></p>
+          <p><%= link_to 'Go To Project Page', project[:project_link], class: "button [tiny small large]"%></p>
+        </div>
     <% end %>
-  </tbody>
-</table>
