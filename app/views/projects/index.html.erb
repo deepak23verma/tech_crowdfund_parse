@@ -2,10 +2,13 @@
 
 
     <% @projects.each do |project| %>
-        <div class="panel large-4 columns">
+        <div class="panel large-6 columns">
           <h6><%= project[:title]%></h6>
+          <p>Home Location: <%= project[:location]%></p>
           <p>Source: <%= project[:source]%></p>
           <p>Amount Pledged: <%= project[:pledged]%></p>
-          <p><%= link_to 'Go To Project Page', project[:project_link], class: "button [tiny small large]"%></p>
+          <p>
+            <%= link_to 'Go To Project Page', project[:project_link], class: "button [tiny small large]"%>
+          </p>
         </div>
     <% end %>

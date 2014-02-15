@@ -21,7 +21,8 @@ class ProjectsController < ApplicationController
         kickstarter_project[:source] = "Kickstarter"
         kickstarter_project[:title] = project.css(".bbcard_name strong a").text
         kickstarter_project[:pledged] = project.css(".project-stats .pledged strong .money").text
-        kickstarter_project[:project_link] = "https://www.kickstarter.com/" + project.css(".project-thumbnail a").first.attr('href')
+        kickstarter_project[:location] = project.css(".project-meta li .location-name").text || "No location provided"
+        kickstarter_project[:project_link] = "https://www.kickstarter.com" + project.css(".project-thumbnail a").first.attr('href')
         @projects << kickstarter_project
       end
     end
@@ -49,7 +50,8 @@ class ProjectsController < ApplicationController
         indiegogo_project[:source] = "Indiegogo"
         indiegogo_project[:title] = project.css(".project-details .name").text
         indiegogo_project[:pledged] = project.css("#project-stats-funding-amt .currency").text
-        indiegogo_project[:project_link] = "http://www.indiegogo.com/" + project.css(".image a").first.attr('href')
+        indiegogo_project[:location] = project.css(".project-details .location #project_location").text || "No location provided"
+        indiegogo_project[:project_link] = "http://www.indiegogo.com" + project.css(".image a").first.attr('href')
         @projects << indiegogo_project
       end
 
